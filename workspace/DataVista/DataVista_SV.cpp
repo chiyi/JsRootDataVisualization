@@ -1,8 +1,6 @@
 #ifndef DataVista_SV_cpp
 #define DataVista_SV_cpp
 
-#include "DataVista_SV.h"
-
 DataVista_SV *DATAVISTA_SV;
 
 DataVista_SV::DataVista_SV(std::string ptr, std::string logfile)

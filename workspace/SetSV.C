@@ -1,7 +1,5 @@
 #include <iostream>
 
-#include "TStyle.h"
-
 #include "DataVista/DataVista_SV.h"
 #include "DataVista/DataVista_SV.cpp"
 
