@@ -13,6 +13,6 @@ docker run \
  -u ${UID}:$(id -g) \
  -v ${PWD}/scripts:/sv_dir/scripts \
  -v ${PWD}/workspace:/sv_dir/workspace \
- -it jsroot_vista \
+ -it jsroot_vista_${USERNAME} \
  /bin/bash
 
