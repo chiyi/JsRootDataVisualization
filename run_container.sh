@@ -11,7 +11,7 @@ docker run \
  --net host \
  -w "/sv_dir" \
  -u ${UID}:$(id -g) \
- -v ${PWD}/scripts:/sv_dir/scripts \
+ -v ${PWD}/Launcher:/sv_dir/Launcher \
  -v ${PWD}/workspace:/sv_dir/workspace \
  -it jsroot_vista_${USERNAME} \
  /bin/bash

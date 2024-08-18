@@ -4,10 +4,10 @@ RUN apt update -y && apt install -y jq
 
 RUN mkdir /sv_dir
 WORKDIR /sv_dir
-COPY JsRoot772.tar.gz /sv_dir
-RUN mkdir /sv_dir/jsroot
-RUN tar xzvf JsRoot772.tar.gz -C jsroot
-RUN chown -R 1000:1000 jsroot
+COPY scripts/dl_jsroot.sh /sv_dir
+RUN /sv_dir/dl_jsroot.sh
+COPY scripts/set_ssl.sh /etc/ssl/
+RUN /etc/ssl/set_ssl.sh
 
 
 FROM BASE as USER
@@ -18,8 +18,8 @@ ARG UID
 ARG GID
 
 RUN echo ${USERNAME}:${GROUPNAME} , ${UID}:${GID}
-COPY set_user.sh /sv_dir
+COPY scripts/set_user.sh /sv_dir
 RUN /sv_dir/set_user.sh ${USERNAME}:${GROUPNAME} ${UID}:${GID}
-RUN chmod 777 /sv_dir/jsroot
-RUN chown -R ${UID}:${GID} jsroot
+RUN chmod -R 755 /sv_dir/jsroot
+RUN chown -R ${UID}:${GID} /sv_dir/jsroot
 

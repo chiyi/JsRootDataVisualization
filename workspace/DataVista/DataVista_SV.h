@@ -12,9 +12,11 @@ class DataVista_SV
   THttpServer *serv;
 
   DataVista_SV(std::string ptr, std::string logfile);
+  ~DataVista_SV();
   std::string Get_SVptr();
   void AddItems();
   void Refresh();
+  class GPSPlots *gps_plots;
 
  private:
   std::string sv;

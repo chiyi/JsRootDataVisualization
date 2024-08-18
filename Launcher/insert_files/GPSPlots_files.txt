@@ -1,0 +1,3 @@
+${WORKDIR}/GPSPlots/html/Show_GPSPlots_temperature.htm ${JSROOTSYS}/files/Show_GPSPlots_temperature.htm
+${WORKDIR}/GPSPlots/js/GPSPlotter.mjs ${JSROOTSYS}/scripts/GPSPlotter.mjs
+

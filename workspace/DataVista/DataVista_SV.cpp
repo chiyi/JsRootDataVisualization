@@ -5,10 +5,26 @@ DataVista_SV *DATAVISTA_SV;
 
 DataVista_SV::DataVista_SV(std::string ptr, std::string logfile)
 {
- this->serv = new THttpServer("http:13931?nocache;rw");
+ TString engine_args = TString::Format(
+  "https:%d?%s&%s;%s",
+  13931,
+  "nocache",
+  "ssl_cert=/etc/ssl/server.pem",
+  "rw"
+ );
+ // "dirlisting=yes",
+ this->serv = new THttpServer(engine_args);
+ if (!this->serv->IsAnyEngine())
+  std::cout << "[DataVista_SV::DataVista_SV]: Initialization Failed." << std::endl;
+
  this->logfile = logfile;
  this->sv = ptr;
  this->Init_DebugInfo();
+}
+
+DataVista_SV::~DataVista_SV()
+{
+ delete gps_plots;
 }
 
 std::string DataVista_SV::Get_SVptr()
@@ -46,6 +62,8 @@ void DataVista_SV::AddItem_Refresh()
 void DataVista_SV::Refresh()
 {
  this->Init_DebugInfo();
+ if (this->gps_plots)
+  this->gps_plots->Refresh();
 }
 
 #endif
