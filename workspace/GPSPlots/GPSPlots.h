@@ -31,7 +31,6 @@ class GPSPlots
   std::vector<TString> Get_Filenames();
   void Init_Plots();
   void Init_Taipei();
-  void CloseFiles();
   void Init_Temperature_Plots();
   void Init_Registration();
   void AddItems(TString path_base);

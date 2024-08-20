@@ -27,7 +27,6 @@ void GPSPlots::Init_Plots()
 {
  this->Init_Taipei();
 
- //this->CloseFiles();
  auto filenames = this->Get_Filenames();
  if (filenames.size() <= 0)
  {
@@ -40,20 +39,8 @@ void GPSPlots::Init_Plots()
 
  this->Nfiles = filenames.size();
  this->GPSFiles.resize(this->Nfiles);
-    
  for(int ifile=0; ifile<this->Nfiles; ifile++)
- {
   this->GPSFiles[ifile] = filenames[ifile];
-
-  //drop init binary
-  //this->GPSFiles[ifile] = new TFile(filenames[ifile].Data());
-  //auto tmpkeys = this->GPSFiles[ifile]->GetListOfKeys();
-  //for(int idx=0; idx<tmpkeys->GetEntries(); idx++)
-  //{
-  // TString cname = TString::Format("%s", tmpkeys->At(idx)->GetName());
-  // ((TCanvas*)GPSFiles[ifile]->Get(cname.Data()))->Draw();
-  //}
- }
 }
 
 void GPSPlots::Init_Taipei()
@@ -62,19 +49,6 @@ void GPSPlots::Init_Taipei()
  TString b_chk = gSystem->GetFromPipe(cmd);
  if (b_chk.Length()<=0)
   b_chk = gSystem->GetFromPipe("GPSPlots/scripts/make_taipeiedges.sh");
-}
-
-void GPSPlots::CloseFiles()
-{
- //int old_nfiles = this->GPSFiles.size();
- //for(int ifile=old_nfiles-1; ifile>=0; ifile--)
- //{
- // if(this->GPSFiles[ifile])
- // {
- //  this->serv->Unregister(this->GPSFiles[ifile]);
- //  if(this->GPSFiles[ifile]->GetName())
- //   this->GPSFiles[ifile]->Close();
- //}}
 }
 
 void GPSPlots::Init_Temperature_Plots()
@@ -95,9 +69,6 @@ void GPSPlots::Init_Registration()
   this->serv->AddLocation(TString(base_path)+"/json_plot/", this->dir_plot); // for GPSPlotter.mjs
   this->b_Reg_GPS_Plots = true;
  }
- //for( int ifile=0; ifile<this->Nfiles; ifile++)
- // if(this->GPSFiles[ifile])
- //  this->serv->Register(base_path, this->GPSFiles[ifile]);
 
  for( int ifile=0; ifile<this->Nfiles; ifile++)
  {
