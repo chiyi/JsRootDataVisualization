@@ -101,8 +101,6 @@ void Write_RootFile(TString outplot, TCanvas *c_temp, TH2D *h2d, TH2D *h_ref)
 
 void Write_Json(TString outjson, TCanvas *c_temp)
 {
- std::ofstream ofs(outjson, std::ios::out | std::ios::trunc);
- TString json = TBufferJSON::ToJSON(c_temp);
- ofs << json << std::endl;
+ c_temp->SaveAs(outjson);
 }
 

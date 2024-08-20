@@ -7,7 +7,7 @@ API_SITE="https://api.openweathermap.org/data/2.5/weather"
 API_KEY=$(cat ${WORKPATH}/api_key)
 OUTDIR=${WORKPATH}/data
 MODE=${1:-"OLD"}
-OLDTAG="2024Aug16_UTC_07H"
+OLDTAG="2024Aug20_UTC_12H"
 
 [ "${MODE}" == "UPDATE" ] && DTTAG=$(date '+%Y%b%d_%Z_%HH') || DTTAG=$OLDTAG
 OUT_TABLE=${OUTDIR}/table_temperature_${DTTAG}.tsv
