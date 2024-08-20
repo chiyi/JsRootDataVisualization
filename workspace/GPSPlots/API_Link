@@ -1,0 +1,2 @@
+apply new account from https://openweathermap.org/
+ save api key into file:api_key

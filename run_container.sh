@@ -9,10 +9,10 @@ cd $SCPATH
 docker run \
  --rm \
  --net host \
- -u ${UID}:$(id -g) \
  -w "/sv_dir" \
- -v ${PWD}/sv_dir:/sv_dir \
- -it jsroot_vista \
+ -u ${UID}:$(id -g) \
+ -v ${PWD}/Launcher:/sv_dir/Launcher \
+ -v ${PWD}/workspace:/sv_dir/workspace \
+ -it jsroot_vista_${USERNAME} \
  /bin/bash
-
 
