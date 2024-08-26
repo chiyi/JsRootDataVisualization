@@ -16,12 +16,12 @@
  document.getElementById("gps_doc").innerHTML += "loading...";
 </script>
 
-<script type='module'>
- import { gpsplotter } from '/jsrootsys/scripts/GPSPlotter.mjs';
+<script type="module">
+ import { gpsplotter } from "/jsrootsys/scripts/GPSPlotter.mjs";
  const urlParams = new URLSearchParams(window.location.search);
- const jsonfile = urlParams.get("json") || 'temperature_latest.json';
+ const jsonfile = urlParams.get("json") || "temperature_latest.json";
  document.getElementById("filename").innerHTML = jsonfile;
- gpsplotter.drawjson('gps_doc', jsonfile);
+ gpsplotter.drawjson("gps_doc", jsonfile);
 </script>
 
 </html>

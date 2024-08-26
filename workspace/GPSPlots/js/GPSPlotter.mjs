@@ -1,4 +1,5 @@
-import { httpRequest, openFile, draw } from '/jsrootsys/modules/main.mjs';
+import { httpRequest, openFile, draw } from "/jsrootsys/modules/main.mjs";
+import { gStyle } from "/jsrootsys/modules/core.mjs";
 
 const gpsplotter = 
 {
@@ -7,6 +8,7 @@ const gpsplotter =
  drawjson: async function(eleid, filename)
  {
   let obj = await httpRequest(this.folder_plot+filename, "object");
+  gStyle.fOptStat = 0;
   draw(eleid, obj);
  },
 
@@ -14,6 +16,7 @@ const gpsplotter =
  {
   let file = await openFile(this.folder_plot+filename);
   let obj = await file.readObject(objname);
+  gStyle.fOptStat = 0;
   draw(eleid, obj);
  }
 };

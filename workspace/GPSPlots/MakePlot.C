@@ -6,7 +6,6 @@
 #include "TH2D.h"
 #include "TBufferJSON.h"
 #include "TCanvas.h"
-#include "TStyle.h"
 #include "TNtupleD.h"
 #include "TList.h"
 #include "TFile.h"
