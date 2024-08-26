@@ -1,6 +1,7 @@
 FROM rootproject/root:6.32.02-ubuntu24.04 as BASE
 
-RUN apt update -y && apt install -y jq
+RUN apt update -y && apt install -y jq pip vim
+RUN pip install pandas --break-system-packages
 
 RUN mkdir /sv_dir
 WORKDIR /sv_dir
