@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>JSROOT Comparison</title>
+ <style>
+  .text-input
+  {
+   margin: 10px 0;
+   padding: 5px;
+   width: 90%;
+  }
+  #comparison_doc
+  {
+   width: 95%;
+   height: 800px;
+  }
+ </style>
+</head>
+
+<body>
+ <h3>TimeSeries DEMO: Comparison</h3>
+ <ul>
+  <li>json file 1: <div id="json1"></div></li>
+  <li>json file 2: <div id="json2"></div></li>
+ </ul>
+ <button id="btn_submit">Submit</button>
+ <div id="comparison_doc"></div>
+</body>
+
+<script type="module">
+ import { tsplotter, create_input } from "/jsrootsys/scripts/TSPlotter.mjs";
+
+ create_input("json1", "Enter 1st JSON file for comparison");
+ create_input("json2", "Enter 2nd JSON file for comparison");
+
+ document.getElementById("btn_submit").addEventListener(
+  "click",
+  function()
+  {
+   const json1 = document.getElementById("json1_inp").value;
+   const json2 = document.getElementById("json2_inp").value;
+   if(json1 && json2)
+    tsplotter.compare("comparison_doc", json1, json2);
+   else
+    alert("Please enter both JSON file paths.");
+ });
+</script>
+
+</html>
+
+

@@ -1,0 +1,4 @@
+${WORKDIR}/TimeSeries/html/Show_TimeSeriesPlots_energy.htm ${JSROOTSYS}/files/Show_TimeSeriesPlots_energy.htm
+${WORKDIR}/TimeSeries/html/Comparison.htm ${JSROOTSYS}/files/Comparison.htm
+${WORKDIR}/TimeSeries/js/TSPlotter.mjs ${JSROOTSYS}/scripts/TSPlotter.mjs
+

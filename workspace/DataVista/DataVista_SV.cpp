@@ -25,6 +25,7 @@ DataVista_SV::DataVista_SV(std::string ptr, std::string logfile)
 DataVista_SV::~DataVista_SV()
 {
  delete gps_plots;
+ delete ts_plots;
 }
 
 std::string DataVista_SV::Get_SVptr()
@@ -64,6 +65,8 @@ void DataVista_SV::Refresh()
  this->Init_DebugInfo();
  if (this->gps_plots)
   this->gps_plots->Refresh();
+ if (this->ts_plots)
+  this->ts_plots->Refresh();
 }
 
 #endif
