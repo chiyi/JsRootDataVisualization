@@ -18,6 +18,7 @@ class DataVista_SV
   void Refresh();
   class GPSPlots *gps_plots;
   class TimeSeriesPlots *ts_plots;
+  void Append_IndexPage();
 
  private:
   std::string sv;

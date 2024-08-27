@@ -69,4 +69,16 @@ void DataVista_SV::Refresh()
   this->ts_plots->Refresh();
 }
 
+void DataVista_SV::Append_IndexPage()
+{
+ this->serv->SetItemField("/", "_layout", "tabs");
+ this->serv->SetItemField("/", "_optimize", "2");
+
+ if (this->ts_plots)
+ {
+  this->serv->SetItemField("/","_drawitem", "[TimeSeries_Plots/c_stacked_energy.json]");
+  this->serv->SetItemField("/","_drawopt", "[]");
+ }
+}
+
 #endif

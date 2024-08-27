@@ -23,4 +23,6 @@ void SetSV(std::string logfile)
  DATAVISTA_SV->gps_plots = gps;
  auto ts = TimeSeriesPlots::Add_TimeSeriesPlots(DATAVISTA_SV);
  DATAVISTA_SV->ts_plots = ts;
+
+ DATAVISTA_SV->Append_IndexPage();
 }
