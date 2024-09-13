@@ -67,6 +67,14 @@ const tsplotter =
   {
    console.error("Comparison failed:", error);
   }
+ },
+
+ drawcanvas: async function(eleid, fname, cname)
+ {
+  gStyle.fOptStat = 0;
+  const file = await openFile(this.folder_plot+fname, "object");
+  const canvas = await file.readObject(cname);
+  await redraw(eleid, canvas, "");
  }
 };
 

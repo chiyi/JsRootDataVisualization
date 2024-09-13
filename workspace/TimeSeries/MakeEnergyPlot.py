@@ -8,7 +8,7 @@ import ROOT
 from ROOT import TFile, TCanvas, TH1D, THStack, TLegend, TAxis, TColor
 
 def MakePlot(args):
-    outfile = args[1]
+    outdir = args[1]
     inpfile = args[2]
     df = pandas.read_csv(inpfile)
     df = df[df['Year']>1825]    # underflow for plots
@@ -60,7 +60,7 @@ def MakePlot(args):
             ibin = dict_h[hname].Fill(val_t, val_y)
             dict_h[hname].SetBinError(ibin, 0.)   # no uncertainty values
 
-        dict_h[hname].SaveAs('plot/h_'+hname+'.json')
+        dict_h[hname].SaveAs(outdir+'/h_'+hname+'.json')
 
     sorted_hnames = sorted(map(lambda hname: (dict_h[hname].Integral(), hname) , dict_h.keys()))
     leg = TLegend(0.01, 0.81, 0.99, 0.93)
@@ -87,7 +87,16 @@ def MakePlot(args):
     dict_h['Sum'].Draw('SAME')
     leg.Draw('SAME')
     c_stack.SetLogy()
-    c_stack.SaveAs('plot/c_stacked_energy.json')
+    c_stack.SaveAs(outdir+'/c_stacked_energy.json')
+
+
+    fw = TFile(outdir+'/Energy_Consumption.root', "RECREATE")
+    fw.cd()
+    for hname in dict_h:
+        dict_h[hname].Write()
+    hs_energy.Write()
+    c_stack.Write()
+    fw.Close()
 
     return
 

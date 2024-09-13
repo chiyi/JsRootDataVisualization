@@ -1,3 +1,8 @@
-Global primary energy consumption by source
-https://ourworldindata.org/grapher/global-energy-substitution
+* Global primary energy consumption by source
+  https://ourworldindata.org/grapher/global-energy-substitution
+
+* Currency ExchangeRate Data
+  * download application from https://www.metatrader5.com/
+  * apply MetaQuotes-Demo account
+  * save currency 1H data via application (not Web Terminal)
 

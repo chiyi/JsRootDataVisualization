@@ -69,6 +69,16 @@ void DataVista_SV::Refresh()
   this->ts_plots->Refresh();
 }
 
+TString JoinStr(const std::vector<TString> &vec, const TString &sep=",")
+{
+ if (vec.empty())
+  return "";
+ TString res = vec[0];
+ for (size_t i = 1; i < vec.size(); ++i)
+  res += sep + vec[i];
+ return res;
+}
+
 void DataVista_SV::Append_IndexPage()
 {
  this->serv->SetItemField("/", "_layout", "tabs");
@@ -76,8 +86,13 @@ void DataVista_SV::Append_IndexPage()
 
  if (this->ts_plots)
  {
-  this->serv->SetItemField("/","_drawitem", "[TimeSeries_Plots/c_stacked_energy.json]");
-  this->serv->SetItemField("/","_drawopt", "[]");
+  std::vector<TString> ts_items = {
+   "TimeSeries_Plots/energy/c_stacked_energy.json",
+   "TimeSeries_Plots/OverviewXE"
+  };
+  std::vector<TString> ts_options = {"", ""};
+  this->serv->SetItemField("/","_drawitem", "[" + JoinStr(ts_items) + "]");
+  this->serv->SetItemField("/","_drawopt", "[" + JoinStr(ts_options) + "]");
  }
 }
 

@@ -27,14 +27,19 @@ class TimeSeriesPlots
   THttpServer *serv;
   int Nfiles;
   const TString dir_plot = "TimeSeries/plot";
+  const TString file_OurWorldInData_Info = "TimeSeries/OurWorldInData_Info.txt";
+  const TString file_MT5_Info = "TimeSeries/MetaTrader5_Info.txt";
   std::vector<TString> TimeSeriesFiles;
   std::vector<TString> Get_Filenames();
   void Init_Plots();
   void Init_Energy_Plots();
+  void Init_MT5_Plots();
   void Init_Registration();
   void AddItems(TString path_base);
-  void AddItem_Info(TString path_base);
+  void AddItem_EnergyInfo(TString path_base);
+  void AddItem_MT5Info(TString path_base);
   void AddItem_Compare(TString path_base);
+  void AddItem_OverviewXE(TString path_base);
 };
 
 #endif

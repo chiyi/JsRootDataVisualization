@@ -4,7 +4,7 @@ SCFULLNAME=$(realpath $0)
 SCPATH=$(dirname $SCFULLNAME)
 WORKPATH=$(realpath $SCPATH/..)
 DATANAME="data/global-energy-substitution.csv"
-OUTPLOT="plot/Energy_Consumption.root"
+OUTDIR="plot/energy"
 
 cd ${WORKPATH}
 
@@ -14,5 +14,5 @@ then
  exit 13
 fi
 
-./MakePlot.py ${OUTPLOT} ${DATANAME}
+./MakeEnergyPlot.py ${OUTDIR} ${DATANAME}
 
