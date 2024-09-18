@@ -5,4 +5,5 @@
   * download application from https://www.metatrader5.com/
   * apply MetaQuotes-Demo account
   * save currency 1H data via application (not Web Terminal)
+  * Note: For demonstration purposes, this repository includes the last 200 lines of currency data. This sample is provided for users who have not yet installed MetaTrader5.
 
