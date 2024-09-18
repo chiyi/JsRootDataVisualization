@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>JSROOT Currency Exchange Compairision plot</title>
+</head>
+
+<body>
+ <h3>TimeSeries DEMO: MT5(overview currency)</h3>
+ <div id="mt5_doc" style="width:95%; height:800px"></div>
+</body>
+
+<script>
+ document.getElementById("mt5_doc").innerHTML += "loading...";
+</script>
+
+<script type="module">
+ import { tsplotter } from "/jsrootsys/scripts/TSPlotter.mjs";
+ const filename = "mt5/overview.root";
+ const canvasname = "v_xe";
+ tsplotter.drawcanvas("mt5_doc", filename, canvasname);
+</script>
+
+</html>
+
+

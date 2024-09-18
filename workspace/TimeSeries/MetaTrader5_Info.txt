@@ -1,0 +1,3 @@
+TimeSeries Plots Demo for the downloaded OHLC data from https://www.metatrader5.com/ .
+ This visualization tool does not interfere with the MT5 program.
+ You need to download the data using MT5 with your MetaQuotes-Demo account.

@@ -3,25 +3,25 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>JSROOT GPSdata</title>
+ <title>JSROOT Energy data</title>
 </head>
 
 <body>
- <h3>GPS-Plots style: Temperature(Taipei)</h3>
+ <h3>TimeSeries DEMO: Energy(Global primary energy consumption by source)</h3>
  <div id="filename" style="width:100%; height:20px"></div>
- <div id="gps_doc" style="width:80%; height:800px"></div>
+ <div id="energy_doc" style="width:95%; height:800px"></div>
 </body>
 
 <script>
- document.getElementById("gps_doc").innerHTML += "loading...";
+ document.getElementById("energy_doc").innerHTML += "loading...";
 </script>
 
 <script type="module">
- import { gpsplotter } from "/jsrootsys/scripts/GPSPlotter.mjs";
+ import { tsplotter } from "/jsrootsys/scripts/TSPlotter.mjs";
  const urlParams = new URLSearchParams(window.location.search);
- const jsonfile = urlParams.get("json") || "temperature_latest.json";
+ const jsonfile = urlParams.get("json");
  document.getElementById("filename").innerHTML = jsonfile;
- gpsplotter.drawjson("gps_doc", jsonfile);
+ tsplotter.drawjson("energy_doc", jsonfile);
 </script>
 
 </html>

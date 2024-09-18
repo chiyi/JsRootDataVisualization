@@ -1,0 +1,4 @@
+Obtain the global primary energy consumption by source 
+ from the Our World in Data graph on global energy substitution 
+ (https://ourworldindata.org/grapher/global-energy-substitution). 
+ Note that for years before 1965, the data might show '0 TWh consumption' or 'no data' for some sources.
