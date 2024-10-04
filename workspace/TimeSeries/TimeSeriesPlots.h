@@ -24,7 +24,7 @@ class TimeSeriesPlots
  private:
   bool b_Reg_TimeSeries_Plots = false;
   std::string sv;
-  THttpServer *serv;
+  THttpServer *serv = nullptr;
   int Nfiles;
   const TString dir_plot = "TimeSeries/plot";
   const TString file_OurWorldInData_Info = "TimeSeries/OurWorldInData_Info.txt";

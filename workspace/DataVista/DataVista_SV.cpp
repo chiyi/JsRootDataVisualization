@@ -1,7 +1,7 @@
 #ifndef DataVista_SV_cpp
 #define DataVista_SV_cpp
 
-DataVista_SV *DATAVISTA_SV;
+DataVista_SV *DATAVISTA_SV = nullptr;
 
 DataVista_SV::DataVista_SV(std::string ptr, std::string logfile)
 {
@@ -24,11 +24,15 @@ DataVista_SV::DataVista_SV(std::string ptr, std::string logfile)
 
 DataVista_SV::~DataVista_SV()
 {
- delete gps_plots;
- delete ts_plots;
+ if (gps_plots)
+  delete gps_plots;
+ if (ts_plots)
+  delete ts_plots;
+ if (heatmap_plots)
+  delete heatmap_plots;
 }
 
-std::string DataVista_SV::Get_SVptr()
+std::string DataVista_SV::Get_SVptr() const
 {
  return this->sv;
 }
@@ -67,6 +71,8 @@ void DataVista_SV::Refresh()
   this->gps_plots->Refresh();
  if (this->ts_plots)
   this->ts_plots->Refresh();
+ if (this->heatmap_plots)
+  this->heatmap_plots->Refresh();
 }
 
 TString JoinStr(const std::vector<TString> &vec, const TString &sep=",")

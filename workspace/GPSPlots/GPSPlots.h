@@ -24,7 +24,7 @@ class GPSPlots
  private:
   bool b_Reg_GPS_Plots = false;
   std::string sv;
-  THttpServer *serv;
+  THttpServer *serv = nullptr;
   int Nfiles;
   const TString dir_plot = "GPSPlots/plot";
   std::vector<TString> GPSFiles;

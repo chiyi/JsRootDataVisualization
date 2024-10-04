@@ -1,0 +1,4 @@
+${WORKDIR}/HeatMaps/html/Show_HeatMaps.htm ${JSROOTSYS}/files/Show_HeatMaps.htm
+${WORKDIR}/HeatMaps/html/Play_Layers.htm ${JSROOTSYS}/files/Play_Layers.htm
+${WORKDIR}/HeatMaps/js/HMPlotter.mjs ${JSROOTSYS}/scripts/HMPlotter.mjs
+
