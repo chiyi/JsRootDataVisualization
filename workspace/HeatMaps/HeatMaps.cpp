@@ -6,8 +6,8 @@ HeatMaps::HeatMaps(std::string sv, THttpServer *serv)
  this->sv = sv;
  this->serv = serv;
  this->b_Reg_HeatMaps_Plots = false;
- this->Init_Plots();
- this->Init_Registration();
+ this->init_plots();
+ this->init_registration();
 }
 
 HeatMaps::~HeatMaps()
@@ -16,10 +16,10 @@ HeatMaps::~HeatMaps()
   this->h_data->Delete();
 }
 
-std::vector<TString> HeatMaps::Get_Filenames()
+std::vector<TString> HeatMaps::get_filenames()
 {
  std::vector<TString> res;
- TString cmd = TString::Format("ls %s/*.json | awk -F '/' '{print $NF}'", this->dir_plot.Data());
+ TString cmd = TString::Format("ls %s/%s/*.json | awk -F '/' '{print $NF}'", this->dir_work.Data(), this->dir_plot.Data());
  TString filestrs = gSystem->GetFromPipe(cmd);
  TString tok;
  Ssiz_t from = 0;
@@ -29,12 +29,12 @@ std::vector<TString> HeatMaps::Get_Filenames()
  return res;
 }
 
-void HeatMaps::Init_Plots()
+void HeatMaps::init_plots()
 {
  //always redraw
- this->Init_FakeData_Plots();
+ this->init_fakedataplots();
 
- auto filenames = this->Get_Filenames();
+ auto filenames = this->get_filenames();
  if (filenames.size() <= 0)
   std::cout << "default plot is missing\n";
 
@@ -44,13 +44,13 @@ void HeatMaps::Init_Plots()
   this->HeatMapsFiles[ifile] = filenames[ifile];
 }
 
-void HeatMaps::Init_FakeData_Plots()
+void HeatMaps::init_fakedataplots()
 {
  // via SV internal methods
- this->LaunchProc_WholeGeneration();
+ this->launch_wholegeneration();
 }
 
-void HeatMaps::Init_Registration()
+void HeatMaps::init_registration()
 {
  TString base_path = "/HeatMaps_Plots";
  TString page_heatmap = "jsrootsys/files/Show_HeatMaps.htm";
@@ -59,8 +59,9 @@ void HeatMaps::Init_Registration()
  if(!this->b_Reg_HeatMaps_Plots)
  {
   this->serv->CreateItem(base_path, "dir_HeatMaps_Plots");
-  this->AddItems(base_path);
-  this->serv->AddLocation(TString(base_path)+"/json_plot/", this->dir_plot);
+  this->additems(base_path);
+  this->serv->AddLocation(TString(base_path)+"/json_plot/", this->dir_work + "/" + this->dir_plot);
+  this->serv->AddLocation(TString(base_path)+"/func/", this->dir_work + "/" + this->dir_func);
   this->b_Reg_HeatMaps_Plots = true;
  }
     
@@ -76,13 +77,15 @@ void HeatMaps::Init_Registration()
  }}
 }
 
-void HeatMaps::AddItems(TString path_base)
+void HeatMaps::additems(TString path_base)
 {
- this->AddItem_FakeDataInfo(path_base);
- this->AddItem_PlayLayers(path_base);
+ this->additem_fakedatainfo(path_base);
+ this->additem_playlayers(path_base);
+ this->additem_clientsimulation(path_base);
+ this->additem_loadplot(path_base);
 }
 
-void HeatMaps::AddItem_FakeDataInfo(TString path_base)
+void HeatMaps::additem_fakedatainfo(TString path_base)
 {
  TString cmd = TString::Format("cat %s", this->file_FakeData_Info.Data());
  TString txt = gSystem->GetFromPipe(cmd);
@@ -92,7 +95,7 @@ void HeatMaps::AddItem_FakeDataInfo(TString path_base)
  this->serv->SetItemField(path, "value", txt.Data());
 }
 
-void HeatMaps::AddItem_PlayLayers(TString path_base)
+void HeatMaps::additem_playlayers(TString path_base)
 {
  TString path = path_base + "/PlayLayers";
  TString page = "jsrootsys/files/Play_Layers.htm";
@@ -102,38 +105,64 @@ void HeatMaps::AddItem_PlayLayers(TString path_base)
  this->serv->SetIcon(path, "rootsys/icons/bld_paste.png");
 }
 
-void HeatMaps::Refresh()
+void HeatMaps::additem_clientsimulation(TString path_base)
 {
- this->Init_Plots();
- this->Init_Registration();
+ TString path = path_base + "/ClientSimulation";
+ this->serv->CreateItem(path, "Simulation from Client's UDF");
+ this->serv->Register(path, this->simulator);
+ this->serv->Hide(path);
+
+ path = path_base + "/SimulationPanel";
+ TString page = "jsrootsys/files/UDF_Simulation.htm";
+ this->serv->CreateItem(path, "Simulation Panel");
+ this->serv->SetItemField(path, "_kind", "Text");
+ this->serv->SetItemField(path, "value", TString("<iframe width='100%' height=1000 src='") + page + "'></iframe>");
+ this->serv->SetIcon(path, "rootsys/icons/bld_paste.png");
 }
 
-void HeatMaps::LaunchProc_WholeGeneration()
+void HeatMaps::additem_loadplot(TString path_base)
 {
- bool b_chk = this->Test_DefaultFuncs();
+ TString path = path_base + "/LoadSimPlot";
+ TString page = "jsrootsys/files/Show_Simulation.htm";
+ this->serv->CreateItem(path, "Show simulated plos");
+ this->serv->SetItemField(path, "_kind", "Text");
+ this->serv->SetItemField(path, "value", TString("<iframe width='100%' height=1000 src='") + page + "'></iframe>");
+ this->serv->SetIcon(path, "rootsys/icons/bld_paste.png");
+}
+
+void HeatMaps::Refresh()
+{
+ this->init_plots();
+ this->init_registration();
+ this->simulator->Clean_UserDir();
+}
+
+void HeatMaps::launch_wholegeneration()
+{
+ bool b_chk = this->test_defaultfuncs();
  if (b_chk)
  {
-  this->Gen_DefaultHeatMap();
-  this->Gen_DefaultLayers();
+  this->gen_defaultheatmap();
+  this->gen_defaultlayers();
  }
 }
 
-bool HeatMaps::Test_DefaultFuncs()
+bool HeatMaps::test_defaultfuncs()
 {
- TString cmd = this->sc_test_f2d;
+ TString cmd = TString::Format("%s %s", this->sc_test_f2d.Data(), this->cfg_basefunc.Data());
  int status = gSystem->Exec(cmd);
  return status == 0;
 }
 
-void HeatMaps::Gen_DefaultHeatMap()
+void HeatMaps::gen_defaultheatmap()
 {
- TString cmd = this->sc_gen_heatmap + " " + this->cfg_basefunc + " " + this->out_fn_default;
+ TString cmd = TString::Format("%s %s %s", this->sc_gen_heatmap.Data(), this->cfg_basefunc.Data(), this->out_fn_default.Data());
  int status = gSystem->Exec(cmd);
 }
 
-void HeatMaps::Gen_DefaultLayers()
+void HeatMaps::gen_defaultlayers()
 {
- TString cmd = this->sc_gen_layers + " " + this->cfg_basefunc + " " + this->out_prefix_layer;
+ TString cmd = TString::Format("%s %s %s", this->sc_gen_layers.Data(), this->cfg_basefunc.Data(), this->out_prefix_layer.Data());
  int status = gSystem->Exec(cmd);
 }
 

@@ -1,10 +1,92 @@
 import { httpRequest, openFile, draw, redraw, cleanup } from "/jsrootsys/modules/main.mjs";
 import { gStyle } from "/jsrootsys/modules/core.mjs";
 
-const hmplotter = 
+const hmtexter =
+{
+ create_txtinput: function(container_id, placeholder="")
+ {
+  const container = document.getElementById(container_id);
+  if (!container)
+  {
+   console.error(`Container with id ${container_id} not found.`);
+   return null;
+  }
+  const input = document.createElement("input");
+  input.setAttribute("type", "text");
+  input.id = container_id + "_inp";
+  input.placeholder = placeholder;
+  container.appendChild(input);
+  return input;
+ },
+
+ create_txtoutput: function(container_id, msg)
+ {
+  const container = document.getElementById(container_id);
+  if (!container)
+  {
+   console.error(`Container with id ${container_id} not found.`);
+   return null;
+  }
+  const output = document.createElement("input");
+  output.defaultValue = msg;
+  output.disabled = true;
+  output.readOnly = true;
+  container.appendChild(output);
+  return output;
+ },
+
+ create_txtareainput: function(container_id)
+ {
+  const container = document.getElementById(container_id);
+  if (!container)
+  {
+   console.error(`Container with id ${container_id} not found.`);
+   return null;
+  }
+  const input = document.createElement("textarea");
+  input.id = container_id + "_inp";
+  input.rows = "40";
+  input.cols = "200";
+
+  function insert_tab(event)
+  {
+   if (event.key === 'Tab')
+   {
+    event.preventDefault();
+    const textarea = event.target;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    textarea.value = textarea.value.substring(0, start) + "\t" + textarea.value.substring(end);
+    textarea.selectionStart = textarea.selectionEnd = start + 1;
+   }
+  }
+  input.addEventListener("keydown", insert_tab);
+  container.appendChild(input);
+  return input;
+ },
+
+ create_txtareaoutput: function(container_id)
+ {
+  const container = document.getElementById(container_id);
+  if (!container)
+  {
+   console.error(`Container with id ${container_id} not found.`);
+   return null;
+  }
+  const output = document.createElement("textarea");
+  output.rows = "10";
+  output.cols = "200";
+  container.appendChild(output);
+  return output;
+ }
+}
+
+const hmplotter =
 {
  idx_plotcycle: 0,    // Current iteration index within the cycle
+
  N_layers: 7,    // Number of layers to play through
+
  t_page_ms: 3000,    // Time for displaying each page in milliseconds
 
  // Filename format: <folder_plot> + "layers/" + <filegroup_layer> + "_" + <idx_plotcycle> + ".root"
@@ -13,17 +95,20 @@ const hmplotter =
 
  timerid_layercycle: 0,    // ID of the timer for cycling through layers
 
- drawjson: async function(eleid, filename)
+ drawjson: async function(eleid, filename, bredraw=false)
  {
   try
   {
    const obj = await httpRequest(this.folder_plot+filename, "object");
    gStyle.fOptStat = 0;
-   await draw(eleid, obj);
+   if (bredraw)
+    await redraw(eleid, obj);
+   else
+    await draw(eleid, obj);
   }
   catch (error)
   {
-   console.error(`Failed to draw JSON for ${fileName}:`, error);
+   console.error(`Failed to draw JSON for ${filename}:`, error);
   }
  },
 
@@ -70,28 +155,11 @@ const hmplotter =
     let opt = document.createElement('option');
     opt.text = option;
     select.appendChild(opt);
-  });  
-  
+  });
+
   // Append the select to the container
   container.appendChild(select);
   return select;
- },
-
- create_txtinput: function(container_id)
- {
-  const container = document.getElementById(container_id);
-  if (!container)
-  {
-   console.error(`Container with id ${container_id} not found.`);
-   return null;
-  }
-  const input = document.createElement("input");
-  input.setAttribute("type", "text");
-  input.className = "text-input";
-  input.id = container_id + "_inp";
-  input.placeholder = `${this.t_page_ms}`;
-  container.appendChild(input);
-  return input;
  },
 
  create_cycler: function(eleid, nameid, sel, t_set)
@@ -109,7 +177,7 @@ const hmplotter =
   if (this.timerid_layercycle)
    clearTimeout(this.timerid_layercycle);
 
-  const cycler = () => 
+  const cycler = () =>
   {
    this.playlayers(eleid, nameid, this.filegroup_layer, this.N_layers, opt);
    this.timerid_layercycle = setTimeout(cycler, this.t_page_ms);
@@ -119,4 +187,4 @@ const hmplotter =
  }
 };
 
-export { hmplotter };
+export { hmtexter, hmplotter };

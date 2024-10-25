@@ -3,7 +3,7 @@
 SCFULLNAME=$(realpath $0)
 SCPATH=$(dirname $SCFULLNAME)
 WORKPATH=$(realpath $SCPATH/..)
-FILECFG=${1:-"${SCPATH}/Base_Functions_2D.cfg"}
+FILECFG=$1
 
 cd ${WORKPATH}
 

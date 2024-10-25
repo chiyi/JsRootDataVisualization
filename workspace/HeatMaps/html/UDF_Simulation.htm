@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>JSROOT Simulation from User-Defined Functions</title>
+ <style>
+  .container 
+  {
+   width: 90%;
+   margin: auto;
+  }
+  .input
+  {
+   width: 100%;
+   min-height: 150px;
+  }
+  .output
+  {
+   width: 100%;
+   min-height: 20px;
+  }
+  .plot-area
+  {
+   width: 100%;
+   height: 1200px;
+   margin-top: 20px;
+  }
+ </style>
+</head>
+
+<body>
+ <header>
+  <h1>UDF DEMO: Simulated Events by User-Defined Functions</h1>
+ </header>
+ <section class="container">
+  <h2>Simulation Parameters</h2>
+  <p>Number of Events on (X=Intrinsic Value, Y=Market Price)-plane in log-scale</p>
+  <dl>
+   <dt>Username:</dt>
+   <dd id="user"></dd>
+   <dt>Saving to filename:</dt>
+   <dd id="file"></dd>
+  </dl>
+  
+  <section id="udf-section">
+   <h3>User-Defined Functions:</h3>
+   <p>(Enter your functions below or modify from the default functions.)</p>
+   <div id="udfs" class="input"></div>
+  </section>
+
+  <button id="btn_submit">Submit</button>
+
+  <h3>Simulation Results</h3>
+  <div id="proc_log" class="output">Processed logs:</div>
+  <div id="client_log" class="output"></div>
+
+  <h3>Visualization</h3>
+  <div id="filename" class="output"></div>
+  <div id="heatmap_doc" class="plot-area"></div>
+  <div id="filename3d" class="output"></div>
+  <div id="heatmap3d_doc" class="plot-area"></div>
+ </section>
+
+ <script type="module">
+  import { hmtexter, hmplotter } from "/jsrootsys/scripts/HMPlotter.mjs";
+  import { hmsimulator } from "/jsrootsys/scripts/HMSimulator.mjs";
+  let u = hmtexter.create_txtinput("user", "AAA");
+  let f = hmtexter.create_txtinput("file", "filename_udfs.cfg");
+  let udf = hmtexter.create_txtareainput("udfs");
+  let log = hmtexter.create_txtareaoutput("client_log");
+  log.value = "TBA";
+  hmsimulator.fill_basefuncs(udf);
+  document.getElementById("filename").textContent = "Unknown file";
+  document.getElementById("btn_submit").addEventListener("click", async () =>
+  {
+   try
+   {
+    let p = hmsimulator.gen_userplotname(u, f);
+    let p3d = hmsimulator.gen_userplotname3d(u, f);
+    await hmsimulator.submit_task(p, f, u, udf, log);
+    document.getElementById("filename").textContent = p;
+    hmplotter.drawjson("heatmap_doc", `user/${p}`, true);
+    document.getElementById("filename3d").textContent = p3d;
+    hmplotter.drawjson("heatmap3d_doc", `user/${p3d}`, true);
+   }
+   catch (error)
+   {
+    alert("Failed to submit task: " + error.message);
+   }
+  });
+ </script>
+</body>
+</html>

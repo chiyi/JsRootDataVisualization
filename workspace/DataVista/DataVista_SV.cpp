@@ -90,6 +90,7 @@ void DataVista_SV::Append_IndexPage()
  this->serv->SetItemField("/", "_layout", "tabs");
  this->serv->SetItemField("/", "_optimize", "2");
 
+ std::vector<TString> items, options;
  if (this->ts_plots)
  {
   std::vector<TString> ts_items = {
@@ -97,9 +98,24 @@ void DataVista_SV::Append_IndexPage()
    "TimeSeries_Plots/OverviewXE"
   };
   std::vector<TString> ts_options = {"", ""};
-  this->serv->SetItemField("/","_drawitem", "[" + JoinStr(ts_items) + "]");
-  this->serv->SetItemField("/","_drawopt", "[" + JoinStr(ts_options) + "]");
+
+  items.insert(items.end(), ts_items.begin(), ts_items.end());
+  options.insert(options.end(), ts_options.begin(), ts_options.end());
  }
+
+ if (this->heatmap_plots)
+ {
+  std::vector<TString> hm_items = {
+   "HeatMaps_Plots/PlayLayers",
+   "HeatMaps_Plots/heatmap_default_3d.json"
+  };
+  std::vector<TString> hm_options = {""};
+  items.insert(items.end(), hm_items.begin(), hm_items.end());
+  options.insert(options.end(), hm_options.begin(), hm_options.end());
+ }
+
+ this->serv->SetItemField("/","_drawitem", "[" + JoinStr(items) + "]");
+ this->serv->SetItemField("/","_drawopt", "[" + JoinStr(options) + "]");
 }
 
 #endif

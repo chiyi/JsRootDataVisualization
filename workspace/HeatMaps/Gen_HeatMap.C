@@ -79,6 +79,7 @@ void write_data(const TString &outjson, TH2D *h_data)
  h_data->Write();
  f_line->Write();
  v_out->Write();
+ v_out->SaveAs(outjson);
 
  TString outjson2 = outjson;
  outjson2.ReplaceAll(".json", "_3d.json");
@@ -87,4 +88,5 @@ void write_data(const TString &outjson, TH2D *h_data)
  gPad->Update();
  v_out->SaveAs(outjson2);
  fw->Close();
+ std::cout << "file:" << outjson << " has been created" << std::endl;
 }
