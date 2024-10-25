@@ -24,9 +24,9 @@ class DataVista_SV
  private:
   std::string sv;
   std::string logfile;
-  void Init_DebugInfo();
-  TString GenHTML_ReadTxtfile(std::string inpfile);
-  void AddItem_Refresh();
+  void init_debuginfo();
+  TString genhtml_readtxtfile(std::string inpfile);
+  void additem_refresh();
 };
 
 #endif

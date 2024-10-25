@@ -19,7 +19,7 @@ DataVista_SV::DataVista_SV(std::string ptr, std::string logfile)
 
  this->logfile = logfile;
  this->sv = ptr;
- this->Init_DebugInfo();
+ this->init_debuginfo();
 }
 
 DataVista_SV::~DataVista_SV()
@@ -37,26 +37,26 @@ std::string DataVista_SV::Get_SVptr() const
  return this->sv;
 }
 
-void DataVista_SV::Init_DebugInfo()
+void DataVista_SV::init_debuginfo()
 {
  char path[] = "/SV_log";
  this->serv->CreateItem(path, this->logfile.c_str());
  this->serv->SetItemField(path, "_kind", "Text");
- TString html = this->GenHTML_ReadTxtfile(this->logfile);
+ TString html = this->genhtml_readtxtfile(this->logfile);
  this->serv->SetItemField(path, "value", html.Data());
 }
 
-TString DataVista_SV::GenHTML_ReadTxtfile(std::string inpfile)
+TString DataVista_SV::genhtml_readtxtfile(std::string inpfile)
 {
  return TString::Format("<iframe width='100%%' height=1000 src='jsrootsys/%s?nocache=<?=time()?>'></iframe>", this->logfile.c_str());
 }
 
 void DataVista_SV::AddItems()
 {
- this->AddItem_Refresh();
+ this->additem_refresh();
 }
 
-void DataVista_SV::AddItem_Refresh()
+void DataVista_SV::additem_refresh()
 {
  char path[] = "/Refresh";
  this->serv->CreateItem(path, "refresh");
@@ -66,7 +66,7 @@ void DataVista_SV::AddItem_Refresh()
 
 void DataVista_SV::Refresh()
 {
- this->Init_DebugInfo();
+ this->init_debuginfo();
  if (this->gps_plots)
   this->gps_plots->Refresh();
  if (this->ts_plots)
