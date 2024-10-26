@@ -1,7 +1,7 @@
 #ifndef DataVista_SV_cpp
 #define DataVista_SV_cpp
 
-DataVista_SV *DATAVISTA_SV;
+DataVista_SV *DATAVISTA_SV = nullptr;
 
 DataVista_SV::DataVista_SV(std::string ptr, std::string logfile)
 {
@@ -19,40 +19,44 @@ DataVista_SV::DataVista_SV(std::string ptr, std::string logfile)
 
  this->logfile = logfile;
  this->sv = ptr;
- this->Init_DebugInfo();
+ this->init_debuginfo();
 }
 
 DataVista_SV::~DataVista_SV()
 {
- delete gps_plots;
- delete ts_plots;
+ if (gps_plots)
+  delete gps_plots;
+ if (ts_plots)
+  delete ts_plots;
+ if (heatmap_plots)
+  delete heatmap_plots;
 }
 
-std::string DataVista_SV::Get_SVptr()
+std::string DataVista_SV::Get_SVptr() const
 {
  return this->sv;
 }
 
-void DataVista_SV::Init_DebugInfo()
+void DataVista_SV::init_debuginfo()
 {
  char path[] = "/SV_log";
  this->serv->CreateItem(path, this->logfile.c_str());
  this->serv->SetItemField(path, "_kind", "Text");
- TString html = this->GenHTML_ReadTxtfile(this->logfile);
+ TString html = this->genhtml_readtxtfile(this->logfile);
  this->serv->SetItemField(path, "value", html.Data());
 }
 
-TString DataVista_SV::GenHTML_ReadTxtfile(std::string inpfile)
+TString DataVista_SV::genhtml_readtxtfile(std::string inpfile)
 {
  return TString::Format("<iframe width='100%%' height=1000 src='jsrootsys/%s?nocache=<?=time()?>'></iframe>", this->logfile.c_str());
 }
 
 void DataVista_SV::AddItems()
 {
- this->AddItem_Refresh();
+ this->additem_refresh();
 }
 
-void DataVista_SV::AddItem_Refresh()
+void DataVista_SV::additem_refresh()
 {
  char path[] = "/Refresh";
  this->serv->CreateItem(path, "refresh");
@@ -62,11 +66,13 @@ void DataVista_SV::AddItem_Refresh()
 
 void DataVista_SV::Refresh()
 {
- this->Init_DebugInfo();
+ this->init_debuginfo();
  if (this->gps_plots)
   this->gps_plots->Refresh();
  if (this->ts_plots)
   this->ts_plots->Refresh();
+ if (this->heatmap_plots)
+  this->heatmap_plots->Refresh();
 }
 
 TString JoinStr(const std::vector<TString> &vec, const TString &sep=",")
@@ -84,6 +90,7 @@ void DataVista_SV::Append_IndexPage()
  this->serv->SetItemField("/", "_layout", "tabs");
  this->serv->SetItemField("/", "_optimize", "2");
 
+ std::vector<TString> items, options;
  if (this->ts_plots)
  {
   std::vector<TString> ts_items = {
@@ -91,9 +98,24 @@ void DataVista_SV::Append_IndexPage()
    "TimeSeries_Plots/OverviewXE"
   };
   std::vector<TString> ts_options = {"", ""};
-  this->serv->SetItemField("/","_drawitem", "[" + JoinStr(ts_items) + "]");
-  this->serv->SetItemField("/","_drawopt", "[" + JoinStr(ts_options) + "]");
+
+  items.insert(items.end(), ts_items.begin(), ts_items.end());
+  options.insert(options.end(), ts_options.begin(), ts_options.end());
  }
+
+ if (this->heatmap_plots)
+ {
+  std::vector<TString> hm_items = {
+   "HeatMaps_Plots/PlayLayers",
+   "HeatMaps_Plots/heatmap_default_3d.json"
+  };
+  std::vector<TString> hm_options = {""};
+  items.insert(items.end(), hm_items.begin(), hm_items.end());
+  options.insert(options.end(), hm_options.begin(), hm_options.end());
+ }
+
+ this->serv->SetItemField("/","_drawitem", "[" + JoinStr(items) + "]");
+ this->serv->SetItemField("/","_drawopt", "[" + JoinStr(options) + "]");
 }
 
 #endif

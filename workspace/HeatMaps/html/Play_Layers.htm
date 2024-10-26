@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>JSROOT playing</title>
+</head>
+
+<body>
+ <h3>Cyclic Plot DEMO: Events on (Intrinsic Value vs Market Price)</h3>
+ <div id="select_option" style="width:100%">
+  Select drawing option or append "/jsrootsys/files/Play_Layers.htm?opt=lego" in url: 
+ </div>
+ <div id="page_time" style="width:100%">
+  Set time duration for each page(ms): 
+ </div>
+ <button id="btn_submit">Submit</button>
+ </br>
+ </br>
+ <div id="filename" style="width:100%; height:20px"></div>
+ <div id="layers_doc" style="width:95%; height:800px"></div>
+</body>
+
+<script>
+ document.getElementById("layers_doc").innerHTML += "loading...";
+</script>
+
+<script type="module">
+ import { hmtexter, hmplotter } from "/jsrootsys/scripts/HMPlotter.mjs";
+ const s = hmplotter.create_drawopts("select_option");
+ const t = hmtexter.create_txtinput("page_time", hmplotter.t_page_ms);
+ document.addEventListener("DOMContentLoaded", () => hmplotter.create_cycler("layers_doc", "filename", s));
+ document.getElementById("btn_submit").addEventListener("click", () => hmplotter.create_cycler("layers_doc", "filename", s, t));
+</script>
+
+</html>

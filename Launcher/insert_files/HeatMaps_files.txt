@@ -1,0 +1,8 @@
+${WORKDIR}/HeatMaps/html/Show_HeatMaps.htm ${JSROOTSYS}/files/Show_HeatMaps.htm
+${WORKDIR}/HeatMaps/html/Play_Layers.htm ${JSROOTSYS}/files/Play_Layers.htm
+${WORKDIR}/HeatMaps/html/UDF_Simulation.htm ${JSROOTSYS}/files/UDF_Simulation.htm
+${WORKDIR}/HeatMaps/html/call_simulator.htm ${JSROOTSYS}/files/call_simulator.htm
+${WORKDIR}/HeatMaps/html/Show_Simulation.htm ${JSROOTSYS}/files/Show_Simulation.htm
+${WORKDIR}/HeatMaps/js/HMPlotter.mjs ${JSROOTSYS}/scripts/HMPlotter.mjs
+${WORKDIR}/HeatMaps/js/HMSimulator.mjs ${JSROOTSYS}/scripts/HMSimulator.mjs
+

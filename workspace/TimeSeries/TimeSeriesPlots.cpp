@@ -6,11 +6,11 @@ TimeSeriesPlots::TimeSeriesPlots(std::string sv, THttpServer *serv)
  this->sv = sv;
  this->serv = serv;
  this->b_Reg_TimeSeries_Plots = false;
- this->Init_Plots();
- this->Init_Registration();
+ this->init_plots();
+ this->init_registration();
 }
 
-std::vector<TString> TimeSeriesPlots::Get_Filenames()
+std::vector<TString> TimeSeriesPlots::get_filenames()
 {
  std::vector<TString> res;
  TString cmd = TString::Format("ls %s/*/*.json | awk -F '/' '{print $(NF-1)\"/\"$NF}'", this->dir_plot.Data());
@@ -23,13 +23,13 @@ std::vector<TString> TimeSeriesPlots::Get_Filenames()
  return res;
 }
 
-void TimeSeriesPlots::Init_Plots()
+void TimeSeriesPlots::init_plots()
 {
  //always redraw
- this->Init_Energy_Plots();
- this->Init_MT5_Plots();
+ this->init_energyplots();
+ this->init_MT5plots();
 
- auto filenames = this->Get_Filenames();
+ auto filenames = this->get_filenames();
  if (filenames.size() <= 0)
   std::cout << "default plot is missing\n";
 
@@ -39,18 +39,18 @@ void TimeSeriesPlots::Init_Plots()
   this->TimeSeriesFiles[ifile] = filenames[ifile];
 }
 
-void TimeSeriesPlots::Init_Energy_Plots()
+void TimeSeriesPlots::init_energyplots()
 {
  TString tmpout = gSystem->GetFromPipe("TimeSeries/scripts/init_energyplots.sh");
 }
 
-void TimeSeriesPlots::Init_MT5_Plots()
+void TimeSeriesPlots::init_MT5plots()
 {
  TString tmpout1 = gSystem->GetFromPipe("TimeSeries/scripts/init_mt5demodata.sh");
  TString tmpout2 = gSystem->GetFromPipe("TimeSeries/scripts/gen_mt5plots.sh");
 }
 
-void TimeSeriesPlots::Init_Registration()
+void TimeSeriesPlots::init_registration()
 {
  TString base_path = "/TimeSeries_Plots";
  TString page_energy = "jsrootsys/files/Show_TimeSeriesPlots_energy.htm";
@@ -60,7 +60,7 @@ void TimeSeriesPlots::Init_Registration()
  if(!this->b_Reg_TimeSeries_Plots)
  {
   this->serv->CreateItem(base_path, "dir_TimeSeries_Plots");
-  this->AddItems(base_path);
+  this->additems(base_path);
   this->serv->AddLocation(TString(base_path)+"/json_plot/", this->dir_plot);
   this->b_Reg_TimeSeries_Plots = true;
  }
@@ -87,15 +87,15 @@ void TimeSeriesPlots::Init_Registration()
  }}
 }
 
-void TimeSeriesPlots::AddItems(TString path_base)
+void TimeSeriesPlots::additems(TString path_base)
 {
- this->AddItem_EnergyInfo(path_base);
- this->AddItem_Compare(path_base);
- this->AddItem_MT5Info(path_base);
- this->AddItem_OverviewXE(path_base);
+ this->additem_energyinfo(path_base);
+ this->additem_compare(path_base);
+ this->additem_MT5info(path_base);
+ this->additem_overviewXE(path_base);
 }
 
-void TimeSeriesPlots::AddItem_EnergyInfo(TString path_base)
+void TimeSeriesPlots::additem_energyinfo(TString path_base)
 {
  TString cmd = TString::Format("cat %s", this->file_OurWorldInData_Info.Data());
  TString txt = gSystem->GetFromPipe(cmd);
@@ -105,7 +105,7 @@ void TimeSeriesPlots::AddItem_EnergyInfo(TString path_base)
  this->serv->SetItemField(path, "value", txt.Data());
 }
 
-void TimeSeriesPlots::AddItem_Compare(TString path_base)
+void TimeSeriesPlots::additem_compare(TString path_base)
 {
  TString path = path_base + "/CompareEnergy";
  TString page = "jsrootsys/files/Comparison.htm";
@@ -115,7 +115,7 @@ void TimeSeriesPlots::AddItem_Compare(TString path_base)
  this->serv->SetIcon(path, "rootsys/icons/bld_paste.png");
 }
 
-void TimeSeriesPlots::AddItem_MT5Info(TString path_base)
+void TimeSeriesPlots::additem_MT5info(TString path_base)
 {
  TString cmd = TString::Format("cat %s", this->file_MT5_Info.Data());
  TString txt = gSystem->GetFromPipe(cmd);
@@ -125,7 +125,7 @@ void TimeSeriesPlots::AddItem_MT5Info(TString path_base)
  this->serv->SetItemField(path, "value", txt.Data());
 }
 
-void TimeSeriesPlots::AddItem_OverviewXE(TString path_base)
+void TimeSeriesPlots::additem_overviewXE(TString path_base)
 {
  TString path = path_base + "/OverviewXE";
  TString page = "jsrootsys/files/Show_XE_overview.htm";
@@ -137,8 +137,8 @@ void TimeSeriesPlots::AddItem_OverviewXE(TString path_base)
 
 void TimeSeriesPlots::Refresh()
 {
- this->Init_Plots();
- this->Init_Registration();
+ this->init_plots();
+ this->init_registration();
 }
 
 #endif

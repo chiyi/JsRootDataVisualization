@@ -9,23 +9,24 @@
 class DataVista_SV
 {
  public:
-  THttpServer *serv;
+  THttpServer *serv = nullptr;
 
   DataVista_SV(std::string ptr, std::string logfile);
   ~DataVista_SV();
-  std::string Get_SVptr();
+  std::string Get_SVptr() const;
   void AddItems();
   void Refresh();
-  class GPSPlots *gps_plots;
-  class TimeSeriesPlots *ts_plots;
+  class GPSPlots *gps_plots = nullptr;
+  class TimeSeriesPlots *ts_plots = nullptr;
+  class HeatMaps *heatmap_plots = nullptr;
   void Append_IndexPage();
 
  private:
   std::string sv;
   std::string logfile;
-  void Init_DebugInfo();
-  TString GenHTML_ReadTxtfile(std::string inpfile);
-  void AddItem_Refresh();
+  void init_debuginfo();
+  TString genhtml_readtxtfile(std::string inpfile);
+  void additem_refresh();
 };
 
 #endif

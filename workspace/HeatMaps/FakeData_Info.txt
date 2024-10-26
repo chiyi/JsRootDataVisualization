@@ -1,0 +1,3 @@
+Generate fake data from user-defined random function.
+
+Check pages under this folder.

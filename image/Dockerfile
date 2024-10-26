@@ -22,4 +22,3 @@ COPY scripts/set_user.sh /sv_dir
 RUN /sv_dir/set_user.sh ${USERNAME}:${GROUPNAME} ${UID}:${GID}
 RUN chmod -R 755 /sv_dir/jsroot
 RUN chown -R ${UID}:${GID} /sv_dir/jsroot
-

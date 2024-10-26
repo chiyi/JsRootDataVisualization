@@ -24,18 +24,18 @@ class GPSPlots
  private:
   bool b_Reg_GPS_Plots = false;
   std::string sv;
-  THttpServer *serv;
+  THttpServer *serv = nullptr;
   int Nfiles;
   const TString dir_plot = "GPSPlots/plot";
   std::vector<TString> GPSFiles;
-  std::vector<TString> Get_Filenames();
-  void Init_Plots();
-  void Init_Taipei();
-  void Init_Temperature_Plots();
-  void Init_Registration();
-  void AddItems(TString path_base);
-  void AddItem_Info(TString path_base);
-  void AddItem_FetchDataToPlots(TString path_base);
+  std::vector<TString> get_filenames();
+  void init_plots();
+  void init_Taipei();
+  void init_temperature_plots();
+  void init_registration();
+  void additems(TString path_base);
+  void additem_info(TString path_base);
+  void additem_fetchdata_to_plots(TString path_base);
 };
 
 #endif

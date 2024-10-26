@@ -6,11 +6,11 @@ GPSPlots::GPSPlots(std::string sv, THttpServer *serv)
  this->sv = sv;
  this->serv = serv;
  this->b_Reg_GPS_Plots = false;
- this->Init_Plots();
- this->Init_Registration();
+ this->init_plots();
+ this->init_registration();
 }
 
-std::vector<TString> GPSPlots::Get_Filenames()
+std::vector<TString> GPSPlots::get_filenames()
 {
  std::vector<TString> res;
  TString cmd = TString::Format("ls %s/temperature_*.json | awk -F '/' '{print $NF}'", this->dir_plot.Data());
@@ -23,16 +23,16 @@ std::vector<TString> GPSPlots::Get_Filenames()
  return res;
 }
 
-void GPSPlots::Init_Plots()
+void GPSPlots::init_plots()
 {
- this->Init_Taipei();
+ this->init_Taipei();
 
- auto filenames = this->Get_Filenames();
+ auto filenames = this->get_filenames();
  if (filenames.size() <= 0)
  {
   // retry once
-  this->Init_Temperature_Plots();
-  filenames = this->Get_Filenames();
+  this->init_temperature_plots();
+  filenames = this->get_filenames();
   if (filenames.size() <= 0)
    std::cout << "default table is missing\n";
  }
@@ -43,7 +43,7 @@ void GPSPlots::Init_Plots()
   this->GPSFiles[ifile] = filenames[ifile];
 }
 
-void GPSPlots::Init_Taipei()
+void GPSPlots::init_Taipei()
 {
  TString cmd = TString::Format("ls %s/Taipei_edges.root", this->dir_plot.Data());
  TString b_chk = gSystem->GetFromPipe(cmd);
@@ -51,12 +51,12 @@ void GPSPlots::Init_Taipei()
   b_chk = gSystem->GetFromPipe("GPSPlots/scripts/make_taipeiedges.sh");
 }
 
-void GPSPlots::Init_Temperature_Plots()
+void GPSPlots::init_temperature_plots()
 {
  TString b_chk = gSystem->GetFromPipe("GPSPlots/scripts/fetch_temperature_toplots.sh OLD");
 }
 
-void GPSPlots::Init_Registration()
+void GPSPlots::init_registration()
 {
  TString base_path = "/GPS_Plots";
  TString page = "jsrootsys/files/Show_GPSPlots_temperature.htm";
@@ -65,7 +65,7 @@ void GPSPlots::Init_Registration()
  if(!this->b_Reg_GPS_Plots)
  {
   this->serv->CreateItem(base_path, "dir_GPS_Plots");
-  this->AddItems(base_path);
+  this->additems(base_path);
   this->serv->AddLocation(TString(base_path)+"/json_plot/", this->dir_plot); // for GPSPlotter.mjs
   this->b_Reg_GPS_Plots = true;
  }
@@ -82,13 +82,13 @@ void GPSPlots::Init_Registration()
  }}
 }
 
-void GPSPlots::AddItems(TString path_base)
+void GPSPlots::additems(TString path_base)
 {
- this->AddItem_Info(path_base);
- this->AddItem_FetchDataToPlots(path_base);
+ this->additem_info(path_base);
+ this->additem_fetchdata_to_plots(path_base);
 }
 
-void GPSPlots::AddItem_Info(TString path_base)
+void GPSPlots::additem_info(TString path_base)
 {
  TString path = path_base + "/OpenWeather_Info";
  this->serv->CreateItem(path, "OpenWeather Info");
@@ -96,7 +96,7 @@ void GPSPlots::AddItem_Info(TString path_base)
  this->serv->SetItemField(path, "value", "Get Data from API https://api.openweathermap.org/data/2.5/weather. \n Don't forget to import the API Key from your registrated account.");
 }
 
-void GPSPlots::AddItem_FetchDataToPlots(TString path_base)
+void GPSPlots::additem_fetchdata_to_plots(TString path_base)
 {
  TString path = path_base + "/OpenWeather_FetchDataToPlots";
  this->serv->CreateItem(path, "get current temperature");
@@ -112,8 +112,8 @@ void GPSPlots::FetchDataToPlots()
 
 void GPSPlots::Refresh()
 {
- this->Init_Plots();
- this->Init_Registration();
+ this->init_plots();
+ this->init_registration();
 }
 
 #endif

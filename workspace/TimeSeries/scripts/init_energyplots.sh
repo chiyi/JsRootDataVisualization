@@ -11,7 +11,7 @@ cd ${WORKPATH}
 if [ ! -f "${DATANAME}" ];
 then
  echo ${DATANAME} is missing.
- exit 13
+ exit 66  # EX_NOINPUT
 fi
 
 ./MakeEnergyPlot.py ${OUTDIR} ${DATANAME}

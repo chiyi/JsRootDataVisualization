@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>JSROOT Load Plots</title>
+ <style>
+  .container 
+  {
+   width: 90%;
+   margin: auto;
+  }
+  .output
+  {
+   width: 100%;
+   min-height: 20px;
+  }
+  .plot-area
+  {
+   width: 100%;
+   height: 1200px;
+   margin-top: 20px;
+  }
+ </style>
+</head>
+
+<body>
+ <header>
+  <h1>DEMO: Load Simulated Plots</h1>
+ </header>
+ <section class="container">
+  <h2>Parameters</h2>
+  <p>Fill the saved filename</p>
+  <dl>
+   <dt>filename:</dt>
+   <dd id="filename"></dd>
+  </dl>
+  
+  <button id="btn_submit">Submit</button>
+
+  <h3>Visualization</h3>
+  <div id="filename" class="output"></div>
+  <div id="heatmap_doc" class="plot-area"></div>
+ </section>
+
+ <script type="module">
+  import { hmtexter, hmplotter } from "/jsrootsys/scripts/HMPlotter.mjs";
+  let f = hmtexter.create_txtinput("filename", "AAA/filename_udfs.cfg.json");
+  document.getElementById("btn_submit").addEventListener("click", async () =>
+  {
+   try
+   {
+    let name = f.value || f.placeholder;
+    f.value = name;
+    hmplotter.drawjson("heatmap_doc", `user/${f.value}`);
+   }
+   catch (error)
+   {
+    alert("Failed to submit task: " + error.message);
+   }
+  });
+ </script>
+</body>
+</html>
