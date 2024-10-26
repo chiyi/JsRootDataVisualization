@@ -41,3 +41,5 @@ This repository serves as a curated collection of visualization templates, provi
 * **Specialization Over Aggregation:** This repository combines various templates each tailored to specific types of data visualization. Unlike a general-purpose server, each template here focuses on distinct characteristics to serve particular needs effectively.
 * **Multilingual Implementation:** Examples within this repo demonstrate the integration of C++, JavaScript, and shell scripts, showcasing how to customize a JSROOT server. For practical applications, users might prefer focusing on one primary technology stack for simplicity.
 * **User Management:** While this repository does not implement member handling directly, the systems can leverage operating system-level account management for user authentication and authorization.
+
+*Acknowledgments: Assistance in implementation and documentation was provided by Grok*
