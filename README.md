@@ -19,7 +19,7 @@ To get started, you'll need to:
 
 ## Collection of templates
 * GPS Plot Style : [GPSPlots](workspace/GPSPlots)  
-  **GPSPlots** offers a dynamic demonstration of data visualization for GPS trajectory plotting.  
+  **GPSPlots** currently presents an edge plot focused on district boundaries, with the potential to dynamically demonstrate GPS trajectory visualization.  
   ![GPSPlots Visualization Screenshot](workspace/GPSPlots/Screenshot_GPSPlots_style.png?raw=true)
 * Time Series Plot Style : [TimeSeries](workspace/TimeSeries)  
   **TimeSeries** provides a dynamic demonstration of time series data visualization, focusing on energy consumption trends and finacial market data.  

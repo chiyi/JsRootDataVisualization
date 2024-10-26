@@ -2,7 +2,7 @@
 
 ![GPSPlots Visualization Screenshot](Screenshot_GPSPlots_style.png?raw=true)
 
-**GPSPlots** is a dynamic demonstration of data visualization for GPS trajectory plotting.
+**GPSPlots** provides an engaging visualization, currently showcasing district edges, adaptable for GPS trajectory plotting.
 - **Interactive GPS Visualization**: Explore GPS data through an engaging, interactive plot style.
 - **Real-World Data Integration**: 
   - **Weather Data**: Integrated from the [OpenWeatherMap API](https://openweathermap.org/), providing real-time weather insights.  
