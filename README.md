@@ -33,8 +33,11 @@ To get started, you'll need to:
   
 This repository serves as a curated collection of visualization templates, providing both functional tools and inspirational examples for showcasing interesting data through JSROOT visualizations.
 
+## Video
 
-
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=YzpBxF_iNIo"><img src="https://img.youtube.com/vi/YzpBxF_iNIo/0.jpg" alt="www.youtube.com/watch?v=YzpBxF_iNIo"></a>
+</div>
 
 ## Notes
 
