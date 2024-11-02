@@ -36,7 +36,7 @@ This repository serves as a curated collection of visualization templates, provi
 ## Video
 
 <div align="center">
-  <a href="https://www.youtube.com/watch?v=YzpBxF_iNIo"><img src="https://img.youtube.com/vi/YzpBxF_iNIo/0.jpg" alt="www.youtube.com/watch?v=YzpBxF_iNIo"></a>
+  <a href="https://www.youtube.com/watch?v=J_AQpKGAyhA"><img src="https://img.youtube.com/vi/J_AQpKGAyhA/0.jpg" alt="www.youtube.com/watch?v=J_AQpKGAyhA"></a>
 </div>
 
 ## Notes
